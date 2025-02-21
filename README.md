@@ -20,7 +20,7 @@ I've organized the code into different implementations, each one getting progres
 
 ## What You'd Need to Run This
 
-I couldn't run this myself (Mac problems 😅), but here's what you'd need:
+I couldn't run this myself --- primarily because I don't have access to a Linux VM with AMD GPU compute --- but here's what you'd need:
 - Linux system (AMD GPU stuff doesn't work on Mac)
 - AMD GPU
 - ROCm platform installed
@@ -75,8 +75,4 @@ Each version can be run separately:
 
 ## Results?
 
-Since I couldn't actually run this (no AMD GPU access), check out [docs/ANALYSIS.md](docs/ANALYSIS.md) for a theoretical discussion of how these different versions should perform and why.
-
-## Important Note
-
-Just to be super clear - this is all theoretical code that I wrote to demonstrate the progression from basic to optimized GPU programming on AMD hardware. I wasn't able to run it myself (stuck with a Mac), but the code structure is solid and should work if you've got the right setup. Think of it as a "here's how you'd do it" guide rather than a "here's how it performs" benchmark. 
+Since I couldn't actually run this (no AMD GPU access), check out [docs/ANALYSIS.md](docs/ANALYSIS.md) for a theoretical discussion of how these different versions should perform and why. The code structure is solid, though, and should work if you've got the right setup. Think of it as a "here's how you'd do it" guide rather than a "here's how it performs" benchmark. 
