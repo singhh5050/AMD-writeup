@@ -1,78 +1,82 @@
-# Matrix Multiplication Acceleration on AMD GPUs
+# Matrix Multiplication on AMD GPUs
 
-This repository contains implementations and benchmarks of matrix multiplication algorithms optimized for AMD GPUs using HIP (Heterogeneous-Computing Interface for Portability).
+Hey! This is my implementation of matrix multiplication comparing CPU vs GPU approaches using AMD's HIP framework. Quick heads up: This is a theoretical implementation since I don't have access to AMD GPU hardware, but the code structure is all there and ready to go if you've got the right setup.
 
-## Project Structure
+## What's In Here
 
+I've organized the code into different implementations, each one getting progressively more optimized:
 ```
 .
 ├── src/
-│   ├── cpu/          # CPU baseline implementation
-│   ├── naive/        # Naive GPU implementation
-│   ├── tiled/        # Tiled GPU implementation with shared memory
-│   └── optimized/    # Optimized GPU implementation
-├── include/          # Header files
-├── benchmarks/       # Benchmarking code and scripts
-├── data/            # Benchmark results and data
-└── docs/            # Documentation and analysis
+│   ├── cpu/          # Basic CPU version (the classic triple loop)
+│   ├── naive/        # Simple GPU version (just to get it working)
+│   ├── tiled/        # Smarter GPU version with shared memory
+│   └── optimized/    # Full-on optimized version with all the tricks
+├── include/          # Common header stuff
+├── benchmarks/       # Code to measure performance
+├── data/            # Where benchmark results would go
+└── docs/            # Detailed writeup of how it all works
 ```
 
-## Prerequisites
+## What You'd Need to Run This
 
-- AMD ROCm platform
-- HIP (Heterogeneous-Computing Interface for Portability)
-- CMake (version 3.10 or higher)
-- C++ compiler with C++11 support
+I couldn't run this myself (Mac problems 😅), but here's what you'd need:
+- Linux system (AMD GPU stuff doesn't work on Mac)
+- AMD GPU
+- ROCm platform installed
+- HIP toolkit
+- CMake (version 3.10+)
+- C++ compiler
 
-## Building the Project
+## How to Build (If You've Got the Hardware)
 
-1. Create a build directory:
+1. Make a build directory:
 ```bash
 mkdir build && cd build
 ```
 
-2. Configure with CMake:
+2. Set up with CMake:
 ```bash
 cmake ..
 ```
 
-3. Build:
+3. Build it:
 ```bash
 make
 ```
 
-## Running the Benchmarks
+## Running the Different Versions
 
-Each implementation can be run separately:
+Each version can be run separately:
 
 ```bash
-# Run CPU baseline
+# Try the CPU version
 ./cpu_matmul
 
-# Run naive GPU implementation
+# Basic GPU version
 ./naive_matmul
 
-# Run tiled GPU implementation
+# Fancy shared memory version
 ./tiled_matmul
 
-# Run optimized GPU implementation
+# Super optimized version
 ./optimized_matmul
 ```
 
-## Implementations
+## What Each Version Does
 
-1. **CPU Baseline**: Standard CPU implementation using triple nested loops
-2. **Naive GPU**: Basic GPU implementation with global memory access
-3. **Tiled GPU**: Improved implementation using shared memory tiling
-4. **Optimized GPU**: Further optimized version with:
+1. **CPU Version**: Just your basic triple-nested loop implementation
+2. **Basic GPU**: Gets it running on the GPU, nothing fancy
+3. **Tiled Version**: Uses shared memory to speed things up
+4. **Optimized Version**: Goes all out with:
    - Loop unrolling
    - Register blocking
-   - Tuned block dimensions
+   - Tuned block sizes
 
-## Results
+## Results?
 
-Detailed benchmarking results and analysis can be found in the [docs/ANALYSIS.md](docs/ANALYSIS.md) file.
+Since I couldn't actually run this (no AMD GPU access), check out [docs/ANALYSIS.md](docs/ANALYSIS.md) for a theoretical discussion of how these different versions should perform and why.
 
-## License
+## Important Note
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. 
+Just to be super clear - this is all theoretical code that I wrote to demonstrate the progression from basic to optimized GPU programming on AMD hardware. I wasn't able to run it myself (stuck with a Mac), but the code structure is solid and should work if you've got the right setup. Think of it as a "here's how you'd do it" guide rather than a "here's how it performs" benchmark. 

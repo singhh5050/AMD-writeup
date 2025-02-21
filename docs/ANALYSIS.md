@@ -1,103 +1,78 @@
-# Matrix Multiplication Performance Analysis: AMD GPU vs CPU
+# Matrix Multiplication: Comparing AMD GPU vs CPU Implementation
 
-## Overview
+Hey! This is my theoretical analysis comparing different ways to do matrix multiplication on AMD GPUs vs CPUs. Quick disclaimer: I wasn't able to actually run these implementations because I don't have access to a Linux machine with an AMD GPU. But I've done a deep dive into how these would work in theory and what kind of performance we might expect.
 
-This document presents a detailed analysis of matrix multiplication performance comparing CPU implementation against three GPU implementations using AMD's HIP framework:
-1. Naive GPU Implementation
-2. Tiled GPU Implementation with Shared Memory
-3. Optimized GPU Implementation with Loop Unrolling and Register Blocking
+## What I'm Trying to Do Here
 
-## Implementation Details
+I've written code for four different approaches:
+1. Basic CPU version (the straightforward way)
+2. Simple GPU version (just getting it to work)
+3. Smarter GPU version with shared memory
+4. Fully optimized GPU version with all the bells and whistles
 
-### CPU Implementation
-- Standard triple-nested loop implementation
-- Row-major memory access pattern
-- No explicit vectorization or parallelization
+## How Each Version Works
 
-### Naive GPU Implementation
-- Direct mapping of matrix multiplication to GPU threads
-- Each thread computes one element of the output matrix
-- Uses only global memory access
-- Simple but memory-intensive approach
+### CPU Version (The Baseline)
+Just your standard triple-nested loop - nothing fancy here. It's not the fastest, but it's super clear what's happening:
+- Goes through the matrices row by row
+- No special optimizations
+- Easy to understand but probably pretty slow
 
-### Tiled GPU Implementation
-- Uses shared memory to reduce global memory access
-- Tiles the input matrices for better cache utilization
-- Requires thread synchronization within thread blocks
-- Improved memory access pattern
+### Basic GPU Version
+This is like the "Hello World" of GPU programming:
+- Each GPU thread handles one output element
+- Keeps things simple but hits the memory hard
+- Probably better than CPU but not by as much as you'd think
 
-### Optimized GPU Implementation
-- Builds upon the tiled implementation
-- Incorporates loop unrolling (4x unroll factor)
-- Uses register blocking for accumulation
-- Optimized thread block dimensions
-- Further reduced memory access overhead
+### Shared Memory Version
+This is where it gets interesting:
+- Uses GPU's shared memory as a sort of mini-cache
+- Breaks the matrices into smaller chunks (tiles)
+- Should be way faster because we're not constantly hitting global memory
+- Needs threads to wait for each other sometimes (synchronization)
 
-## Performance Results
+### Optimized Version
+Pulled out all the stops here:
+- Built on the shared memory version
+- Unrolled some loops (4x) to reduce overhead
+- Better register usage
+- Tweaked the block sizes for what should be optimal performance
 
-[Results will be automatically populated from benchmark data]
+## What I Think Would Happen
 
-### Execution Time Comparison
-![Benchmark Results](../data/benchmark_plots.png)
+Since I couldn't run the actual benchmarks, here's what I expect we'd see:
+- CPU version would be okay for small matrices but fall off hard as they get bigger
+- Basic GPU version would show some speedup but nothing crazy
+- Shared memory version should be significantly better
+- Optimized version would probably be the fastest, especially for larger matrices
 
-### Key Findings
-- Matrix Size Impact:
-  - [Analysis of how matrix size affects performance]
-- Memory Access Patterns:
-  - [Analysis of memory access patterns and their impact]
-- Optimization Benefits:
-  - [Analysis of benefits from different optimizations]
+[Note: The benchmark graphs would go here if I could run the code]
 
-## Performance Analysis
+## The Big Picture
 
-### CPU vs. Naive GPU
-- [Analysis of basic GPU implementation performance]
-- [Discussion of memory bandwidth limitations]
-- [Identification of bottlenecks]
+Even though I couldn't run the code, this project shows how you'd progressively optimize GPU code, specifically for AMD hardware. The cool thing about using HIP instead of CUDA is that it's basically the same concepts but with AMD's twist on things.
 
-### Tiled vs. Naive Implementation
-- [Analysis of shared memory benefits]
-- [Discussion of memory coalescing]
-- [Impact of tile size choice]
+## What I'd Do Next
 
-### Optimized Implementation Benefits
-- [Analysis of loop unrolling impact]
-- [Benefits of register blocking]
-- [Discussion of occupancy and resource utilization]
+If I had access to the right hardware, I'd love to:
+1. Actually run these benchmarks and see if my predictions are right
+2. Play with different tile sizes to find the sweet spot
+3. Maybe try some even fancier optimizations
 
-## Conclusions
+## Setup I'd Need to Run This
 
-[Summary of key findings and recommendations]
+Just for reference, here's what you'd need to actually run this:
+- A Linux box (tried on my Mac, no dice)
+- An AMD GPU
+- ROCm and HIP installed
+- C++ compiler that plays nice with all this
 
-## Future Improvements
+## Sources I Used
 
-Potential areas for further optimization:
-1. [Improvement suggestion 1]
-2. [Improvement suggestion 2]
-3. [Improvement suggestion 3]
+1. AMD's ROCm docs (super helpful for understanding the HIP stuff)
+2. Various matrix multiplication optimization papers
+3. Online GPU programming guides
+4. Stack Overflow (obviously 😅)
 
-## Hardware and Software Environment
-
-- CPU: [To be filled]
-- GPU: [To be filled]
-- ROCm Version: [To be filled]
-- Compiler: [To be filled]
-- Operating System: [To be filled]
-
-## References
-
-1. AMD ROCm Documentation
-2. HIP Programming Guide
-3. Matrix Multiplication Optimization Techniques
-4. [Additional references]
-
-## Note on Execution Environment
-This codebase demonstrates the implementation of matrix multiplication using AMD's HIP framework, showing the progression from naive to optimized implementations. While the code is complete and properly structured, execution requires:
-- Linux operating system
-- AMD GPU hardware
-- ROCm/HIP toolkit installation
-
-The code structure and optimization techniques mirror those used in CUDA, but adapted for AMD's architecture using HIP, demonstrating the key differences in:
-- Memory management (`hipMalloc` vs `cudaMalloc`)
-- Kernel launch syntax (`hipLaunchKernelGGL` vs CUDA's `<<<>>>`)
-- Thread indexing (`hipThreadIdx` vs `threadIdx`) 
+## Important Note
+Just to be super clear - this is all theoretical since I don't have access to AMD GPU hardware. The code is written and should work, but I haven't been able to verify it with actual runs. Think of it more as a "here's how you'd do it" rather than "here's how it performs." 
